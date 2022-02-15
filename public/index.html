@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Mario</title>
+  <style>
+    body { background: black; margin: 0; }
+    #screen { display: block; height: 100vh; margin: auto; }
+    canvas { image-rendering: pixelated; }
+  </style>
+</head>
+<body>
+  <canvas id="screen" width="256" height="224"></canvas>
+  <script>
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = `./main.js?t=${Date.now()}`;
+    document.body.append(script);
+  </script>
+</body>
+</html>
