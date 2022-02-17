@@ -1,6 +1,7 @@
 import AudioBoard from "./AudioBoard";
 import BoundingBox from "./BoundingBox";
 import { LayerRenderer } from "./Compositor";
+import EventEmitter from "./EventEmitter";
 import { GameContext } from "./Level";
 import { Vector } from "./math";
 import { ResolvedTile } from "./TileCollider";
@@ -14,6 +15,7 @@ export type Task = () => void;
 export class Trait {
   public sounds: Set<string> = new Set();
   public tasks: Task[] = [];
+  public events: EventEmitter = new EventEmitter();
 
   collides(us: Entity, them: Entity){}
   finalize(){

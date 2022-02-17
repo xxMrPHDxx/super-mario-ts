@@ -1,15 +1,20 @@
 import Mario from "../entities/Mario";
 import Entity, { Trait } from "../Entity";
-import Level, { GameContext } from "../Level";
+import { GameContext } from "../Level";
 import { Vector } from "../math";
 
 export default class PlayerController extends Trait {
-  private player: Mario = null;
+  public player: Mario = null;
   public checkpoint: Vector = new Vector();
   public time: number = 300;
+  public score: number = 0;
 
   setPlayer(player: Mario){
     this.player = player;
+
+    this.player.stomper.events.listen('stomp', () => {
+      this.score += 100;
+    });
   }
 
   update(entity: Entity, gameContext: GameContext): void {

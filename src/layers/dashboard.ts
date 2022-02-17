@@ -6,14 +6,13 @@ export function createDashboardLayer(font: FontSheet, playerController: PlayerCo
   const LINE1 = font.size;
   const LINE2 = font.size * 2;
 
-  const score = 24500;
   const coins = 26;
 
   return function drawDashboard(ctx: CanvasRenderingContext2D){
-    const time = playerController.time;
+    const time = Math.max(0, playerController.time);
 
     font.draw('MARIO', ctx, 16, LINE1);
-    font.draw(score.toString().padStart(6, '0'), ctx, 16, LINE2);
+    font.draw(playerController.score.toString().padStart(6, '0'), ctx, 16, LINE2);
 
     font.draw(`@x${coins.toString().padStart(2, '0')}`, ctx, 96, LINE2);
 
