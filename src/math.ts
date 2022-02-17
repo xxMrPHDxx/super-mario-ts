@@ -5,6 +5,10 @@ export class Matrix<T> {
   constructor(){
     this.grid = [];
   }
+  delete(x: number, y: number){
+    const col = this.grid[x];
+    if(col) delete col[y];
+  }
   get(x: number, y: number) : T {
     const col = this.grid[x];
     if(col) return col[y];

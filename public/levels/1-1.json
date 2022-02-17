@@ -192,7 +192,7 @@
         },
         {
           "name": "bricks",
-          "type": "ground",
+          "type": "brick",
           "ranges": [
             [6, 5, 10],
 

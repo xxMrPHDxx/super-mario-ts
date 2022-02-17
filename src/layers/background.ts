@@ -1,11 +1,11 @@
 import { LayerRenderer } from "../Compositor";
 import Level from "../Level";
-import { Tile } from "../loaders/level";
+import { LevelTileSpec } from "../loaders/level";
 import { Matrix } from "../math";
 import SpriteSheet from "../SpriteSheet";
 import { TileResolver } from "../TileCollider";
 
-export function createBackgroundLayer(level: Level, tiles: Matrix<Tile>, sprites: SpriteSheet) : LayerRenderer {
+export function createBackgroundLayer(level: Level, tiles: Matrix<LevelTileSpec>, sprites: SpriteSheet) : LayerRenderer {
   const resolver = new TileResolver(tiles);
 
   const ctx = document.createElement('canvas').getContext('2d');

@@ -7,20 +7,20 @@ import { Matrix } from "../math";
 import SpriteSheet from "../SpriteSheet";
 
 type Range = [number, number, number?, number?];
-interface TileSpec {
+export interface LevelTileSpec {
   name: string,
   pattern?: string,
   type?: string,
   ranges: Range[],
 }
 interface PatternSpec {
-  tiles: TileSpec[],
+  tiles: LevelTileSpec[],
 }
 interface PatternsSpec {
   [key: string]: PatternSpec,
 };
 interface LayerSpec {
-  tiles: TileSpec[],
+  tiles: LevelTileSpec[],
 }
 interface EntitySpec {
   name: string,
@@ -33,24 +33,17 @@ interface LevelSpec {
   entities: EntitySpec[],
 }
 interface ExpandedTile {
-  tile: TileSpec,
+  tile: LevelTileSpec,
   x: number,
   y: number,
 }
 
-function setupCollision(levelSpec: LevelSpec, level: Level){
-  const mergedTiles = levelSpec.layers.reduce((mergedTiles, layerSpec) => {
-    return mergedTiles.concat(layerSpec.tiles);
-  }, []);
-  const collisionGrid = createCollisionGrid(mergedTiles, levelSpec.patterns);
-  level.setCollisionGrid(collisionGrid);
-}
-
 function setupBackgrounds(levelSpec: LevelSpec, level: Level, sprites: SpriteSheet){
   levelSpec.layers.forEach((layer, i) => {
-    const backgroundGrid = createBackgroundGrid(layer.tiles, levelSpec.patterns);
-    const backgroundLayer = createBackgroundLayer(level, backgroundGrid, sprites);
+    const grid = createGrid(layer.tiles, levelSpec.patterns);
+    const backgroundLayer = createBackgroundLayer(level, grid, sprites);
     level.comp.add(backgroundLayer);
+    level.tileCollider.addGrid(grid);
   });
 }
 
@@ -77,7 +70,6 @@ export function createLevelLoader(entityFactory: EntityFactory) : LevelLoader {
     .then(([levelSpec, sprites]) => {
       const level = new Level();
 
-      setupCollision(levelSpec, level);
       setupBackgrounds(levelSpec, level, sprites);
       setupEntities(levelSpec, level, entityFactory);
       
@@ -86,22 +78,11 @@ export function createLevelLoader(entityFactory: EntityFactory) : LevelLoader {
   }
 }
 
-export interface Tile { name?: string, type?: string };
-function createCollisionGrid(tiles: TileSpec[], patterns: PatternsSpec) : Matrix<Tile> {
-  const grid: Matrix<Tile> = new Matrix();
+function createGrid(tiles: LevelTileSpec[], patterns: PatternsSpec) : Matrix<LevelTileSpec> {
+  const grid: Matrix<LevelTileSpec> = new Matrix();
 
   for(const { tile, x, y } of expandTiles(tiles, patterns)){
-    grid.set(x, y, { type: tile.type });
-  }
-
-  return grid;
-}
-
-function createBackgroundGrid(tiles: TileSpec[], patterns: PatternsSpec) : Matrix<Tile> {
-  const grid: Matrix<Tile> = new Matrix();
-
-  for(const { tile, x, y } of expandTiles(tiles, patterns)){
-    grid.set(x, y, { name: tile.name });
+    grid.set(x, y, tile);
   }
 
   return grid;
@@ -131,8 +112,8 @@ function* expandRanges(ranges: Range[]) : Generator<any> {
   }
 }
 
-function* expandTiles(tiles: TileSpec[], patterns: PatternsSpec) : Generator<ExpandedTile> {
-  function* walkTiles(tiles: TileSpec[], offsetX: number, offsetY: number) : Generator<ExpandedTile> {
+function* expandTiles(tiles: LevelTileSpec[], patterns: PatternsSpec) : Generator<ExpandedTile> {
+  function* walkTiles(tiles: LevelTileSpec[], offsetX: number, offsetY: number) : Generator<ExpandedTile> {
     for(const tile of tiles){
       for(const { x, y } of expandRanges(tile.ranges)){
         const derivedX = x + offsetX, derivedY = y + offsetY;

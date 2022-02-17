@@ -26,7 +26,6 @@ async function main(canvas: HTMLCanvasElement){
   const camera = new Camera();
   
   const mario = entityFactory.mario();
-  console.log(mario.player);
 
   const playerEnv = createPlayerEnv(mario);
   level.entities.add(playerEnv);
@@ -40,7 +39,7 @@ async function main(canvas: HTMLCanvasElement){
   const timer = new Timer();
 
   timer.update = (dt) => {
-    level.update(dt, audioContext);
+    level.update(dt, audioContext, entityFactory);
 
     camera.pos.x = Math.max(0, mario.pos.x - 100);
 
