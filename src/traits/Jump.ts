@@ -38,7 +38,7 @@ export default class Jump extends Trait {
     
     if(this.graceTime > 0){
       if(this.ready > 0){
-        this.sounds.add('jump');
+        entity.sounds.add('jump');
         this.engageTime = this.duration;
         this.graceTime = 0;
       }

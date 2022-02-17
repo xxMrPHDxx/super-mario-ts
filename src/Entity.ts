@@ -13,7 +13,6 @@ export enum Sides {
 export type Task = () => void;
 
 export class Trait {
-  public sounds: Set<string> = new Set();
   public tasks: Task[] = [];
   public events: EventEmitter = new EventEmitter();
 
@@ -23,12 +22,6 @@ export class Trait {
     this.tasks.length = 0;
   }
   obstruct(entity: Entity, side: Sides, match?: ResolvedTile){}
-  playSounds(audioBoard: AudioBoard, audioContext: AudioContext){
-    this.sounds.forEach(name => {
-      audioBoard.play(name, audioContext);
-    });
-    this.sounds.clear();
-  }
   queue(task: Task){
     this.tasks.push(task);
   }
@@ -37,6 +30,8 @@ export class Trait {
 
 export default class Entity {
   public audioBoard: AudioBoard;
+  public sounds: Set<string> = new Set();
+  
   public pos: Vector = new Vector();
   public size: Vector = new Vector();
   public offset: Vector = new Vector();
@@ -77,11 +72,18 @@ export default class Entity {
     });
   }
 
+  playSounds(audioBoard: AudioBoard, audioContext: AudioContext){
+    this.sounds.forEach(name => {
+      audioBoard.play(name, audioContext);
+    });
+    this.sounds.clear();
+  }
+
   update(gameContext: GameContext){
     this.traits.forEach(trait => {
       trait.update(this, gameContext);
-      trait.playSounds(this.audioBoard, gameContext.audioContext);
     });
+    this.playSounds(this.audioBoard, gameContext.audioContext);
     this.lifetime += gameContext.dt;
   }
 

@@ -133,6 +133,24 @@
           ]
         }
       ]
+    },
+    "cannon-2h": {
+      "tiles": [
+        {
+          "name": "cannon-1",
+          "type": "ground",
+          "ranges": [
+            [0, 0]
+          ]
+        },
+        {
+          "name": "cannon-3",
+          "type": "ground",
+          "ranges": [
+            [0, 1]
+          ]
+        }
+      ]
     }
   },
   "layers": [
@@ -177,7 +195,6 @@
           "type": "ground",
           "ranges": [
             [6, 5, 10],
-            [6, 9],
 
             [20, 5, 9],
             [77, 3, 9],
@@ -232,6 +249,16 @@
           ]
         }
       ]
+    },
+    {
+      "tiles": [
+        {
+          "pattern": "cannon-2h",
+          "ranges": [
+            [6, 8]
+          ]
+        }
+      ]
     }
   ],
   "entities": [
@@ -242,6 +269,10 @@
     {
       "name": "goomba",
       "pos": [220, 0]
+    },
+    {
+      "name": "cannon",
+      "pos": [96, 128]
     }
   ]
 }

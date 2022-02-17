@@ -1,5 +1,5 @@
 import Entity, { Trait } from "../Entity";
-import Level, { GameContext } from "../Level";
+import { GameContext } from "../Level";
 import { loadSpriteSheet } from "../loaders";
 import SpriteSheet from "../SpriteSheet";
 import Killable from "../traits/Killable";

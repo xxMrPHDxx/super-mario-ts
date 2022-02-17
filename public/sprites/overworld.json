@@ -74,6 +74,18 @@
     {
       "name": "cloud-2-3",
       "index": [10, 1]
+    },
+    {
+      "name": "cannon-1",
+      "index": [7, 0]
+    },
+    {
+      "name": "cannon-2",
+      "index": [6, 1]
+    },
+    {
+      "name": "cannon-3",
+      "index": [7, 1]
     }
   ],
   "animations": [

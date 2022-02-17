@@ -7,6 +7,7 @@ import Go from "../traits/Go";
 import Jump from "../traits/Jump";
 import Killable from "../traits/Killable";
 import Physics from "../traits/Physics";
+import Player from "../traits/Player";
 import Solid from "../traits/Solid";
 import Stomper from "../traits/Stomper";
 
@@ -16,6 +17,7 @@ const enum Drag {
 };
 
 export default class Mario extends Entity {
+  public player: Player;
   public physics: Physics;
   public solid: Solid;
   public go: Go;
@@ -26,6 +28,7 @@ export default class Mario extends Entity {
   constructor(audioBoard: AudioBoard){
     super(audioBoard);
     this.size.set(14, 16);
+    this.addTrait('player', this.player = new Player());
     this.addTrait('physics', this.physics = new Physics());
     this.addTrait('solid', this.solid = new Solid());
     this.addTrait('go', this.go = new Go());

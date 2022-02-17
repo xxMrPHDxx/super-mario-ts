@@ -4,23 +4,15 @@ import Camera from './Camera';
 import { createLevelLoader } from './loaders/level';
 import { loadEntities } from './entities';
 import Mario from './entities/Mario';
-import Entity from './Entity';
 import PlayerController from './traits/PlayerController';
 import { createCollisionLayer } from './layers/collision';
 import { loadFont } from './loaders/font';
 import { createDashboardLayer } from './layers/dashboard';
-
-function createPlayerEnv(player: Mario) : Entity {
-  const env = new Entity();
-  const controller = new PlayerController();
-  controller.checkpoint.set(64, 64);
-  controller.setPlayer(player);
-  env.addTrait('controller', controller);
-  return env;
-}
+import { createPlayerEnv } from './player';
 
 async function main(canvas: HTMLCanvasElement){
   const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
   const audioContext = new AudioContext();
 
   const [entityFactory, font] = await Promise.all([
@@ -33,7 +25,8 @@ async function main(canvas: HTMLCanvasElement){
   
   const camera = new Camera();
   
-  const mario = entityFactory.mario() as Mario;
+  const mario = entityFactory.mario();
+  console.log(mario.player);
 
   const playerEnv = createPlayerEnv(mario);
   level.entities.add(playerEnv);

@@ -29,6 +29,9 @@ export class Vector {
   constructor(x: number = 0, y: number = 0){
     this.set(x, y);
   }
+  copy(source: Vector){
+    this.set(source.x, source.y);
+  }
   set(x: number, y: number){
     this.x = x;
     this.y = y;

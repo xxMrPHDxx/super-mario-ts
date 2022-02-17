@@ -1,0 +1,8 @@
+{
+  "fx": [
+    {
+      "name": "shoot",
+      "url": "./audio/thwomp.ogg"
+    }
+  ]
+}
