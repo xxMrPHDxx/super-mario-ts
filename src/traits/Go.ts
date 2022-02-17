@@ -1,4 +1,5 @@
 import Entity, { Trait } from "../Entity";
+import { GameContext } from "../Level";
 import Jump from "./Jump";
 
 export default class Go extends Trait {
@@ -20,7 +21,8 @@ export default class Go extends Trait {
 
   set drag(friction: number){ this.friction = friction; }
 
-  update(entity: Entity, dt: number){
+  update(entity: Entity, gameContext: GameContext){
+    const { dt } = gameContext;
     const absX = Math.abs(entity.vel.x);
 
     if(this.dir !== 0){

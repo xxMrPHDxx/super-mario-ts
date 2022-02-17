@@ -1,24 +1,33 @@
-import { loadMario } from './entities/Mario';
-import { loadGoomba } from './entities/Goomba';
-import { loadKoopa } from './entities/Koopa';
+import Mario, { loadMario } from './entities/Mario';
+import Goomba, { loadGoomba } from './entities/Goomba';
+import Koopa, { loadKoopa } from './entities/Koopa';
 import Entity from './Entity';
 
-type EntityCreator = () => Entity;
+type EntityCreator<T extends Entity> = () => T;
+type EntityType = 'mario' | 'goomba' | 'koopa';
 
-export interface EntityFactory {
-  [key: string]: EntityCreator,
+export type IEntityFactory = {
+  [key in EntityType]: EntityCreator<Entity>;
+};
+
+export class EntityFactory implements IEntityFactory {
+  [key: string]: EntityCreator<Entity>;
+  get mario() : EntityCreator<Mario> { return this['mario']; }
+  get goomba() : EntityCreator<Goomba> { return this['goomba']; }
+  get koopa() : EntityCreator<Koopa> { return this['koopa']; }
 }
 
-export function loadEntities() : Promise<EntityFactory> {
+export function loadEntities(audioContext: AudioContext) : Promise<EntityFactory> {
   return Promise.all([
-    loadMario(),
-    loadGoomba(),
-    loadKoopa(),
+    loadMario(audioContext),
+    loadGoomba(audioContext),
+    loadKoopa(audioContext),
   ]).then(([createMario, createGoomba, createKoopa]) => {
-    const entityFactory: EntityFactory = {};
-    entityFactory['mario'] = createMario;
-    entityFactory['goomba'] = createGoomba;
-    entityFactory['koopa'] = createKoopa;
+    const entityFactory: EntityFactory = {
+      mario: createMario,
+      goomba: createGoomba,
+      koopa: createKoopa,
+    };
     return entityFactory;
   });
 }

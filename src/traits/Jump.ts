@@ -1,4 +1,5 @@
 import Entity, { Sides, Trait } from "../Entity";
+import { GameContext } from "../Level";
 
 const SPEED_BOOST = 0.3;
 
@@ -32,9 +33,12 @@ export default class Jump extends Trait {
     if(side === Sides.BOTTOM) this.ready = 1;
     if(side === Sides.TOP) this.cancel();
   }
-  update(entity: Entity, dt: number){
+  update(entity: Entity, gameContext: GameContext){
+    const { dt } = gameContext;
+    
     if(this.graceTime > 0){
       if(this.ready > 0){
+        this.sounds.add('jump');
         this.engageTime = this.duration;
         this.graceTime = 0;
       }

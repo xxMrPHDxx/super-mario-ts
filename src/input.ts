@@ -1,5 +1,5 @@
+import Mario from './entities/Mario';
 import Keyboard from './KeyboardState';
-import Mario from './Mario';
 
 export function setupKeyboard(mario: Mario) : Keyboard {
   const input = new Keyboard();

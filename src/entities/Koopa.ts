@@ -1,5 +1,5 @@
 import Entity, { Trait } from "../Entity";
-import Level from "../Level";
+import Level, { GameContext } from "../Level";
 import { loadSpriteSheet } from "../loaders";
 import SpriteSheet from "../SpriteSheet";
 import Killable from "../traits/Killable";
@@ -76,7 +76,9 @@ class Behavior extends Trait {
     this.state = KoopaState.WALKING;
   }
 
-  update(us: Entity, dt: number, level?: Level): void {
+  update(us: Entity, gameContext: GameContext): void {
+    const { dt } = gameContext;
+
     if(!(us instanceof Koopa)) return;
     if(this.state === KoopaState.HIDING){
       this.hideTime += dt;
@@ -87,7 +89,7 @@ class Behavior extends Trait {
   }
 }
 
-class Koopa extends Entity {
+export default class Koopa extends Entity {
   public physics: Physics;
   public solid: Solid;
   public pendulumMove: PendulumMove;
@@ -106,7 +108,7 @@ class Koopa extends Entity {
 
 export type KoopaFactory = () => Koopa;
 
-export function loadKoopa() : Promise<KoopaFactory> {
+export function loadKoopa(audioContext: AudioContext) : Promise<KoopaFactory> {
   return loadSpriteSheet('koopa')
   .then(createKoopaFactory);
 }

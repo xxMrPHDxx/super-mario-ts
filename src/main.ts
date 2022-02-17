@@ -21,10 +21,10 @@ function createPlayerEnv(player: Mario) : Entity {
 
 async function main(canvas: HTMLCanvasElement){
   const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-  ctx.imageSmoothingEnabled = false;
+  const audioContext = new AudioContext();
 
   const [entityFactory, font] = await Promise.all([
-    loadEntities(),
+    loadEntities(audioContext),
     loadFont(),
   ]);
 
@@ -47,7 +47,7 @@ async function main(canvas: HTMLCanvasElement){
   const timer = new Timer();
 
   timer.update = (dt) => {
-    level.update(dt);
+    level.update(dt, audioContext);
 
     camera.pos.x = Math.max(0, mario.pos.x - 100);
 
@@ -58,4 +58,9 @@ async function main(canvas: HTMLCanvasElement){
 }
 
 const canvas: HTMLCanvasElement = document.querySelector('canvas#screen');
-main(canvas);
+
+const start = () => {
+  window.removeEventListener('click', start);
+  main(canvas);
+}
+window.addEventListener('click', start);

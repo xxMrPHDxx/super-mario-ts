@@ -1,9 +1,16 @@
+import AudioBoard from "./AudioBoard";
 import Compositor from "./Compositor";
 import Entity from "./Entity";
 import EntityCollider from "./EntityCollider";
 import { Tile } from "./loaders/level";
 import { Matrix } from "./math";
 import TileCollider from "./TileCollider";
+
+export interface GameContext {
+  dt: number,
+  level: Level,
+  audioContext: AudioContext,
+}
 
 export default class Level {
   public comp: Compositor;
@@ -23,9 +30,9 @@ export default class Level {
   setCollisionGrid(matrix: Matrix<Tile>){
     this.tileCollider = new TileCollider(matrix);
   }
-  update(dt: number){
+  update(dt: number, audioContext: AudioContext){
     this.entities.forEach(entity => {
-      entity.update(dt, this);
+      entity.update({ dt, level: this, audioContext });
     });
 
     this.entities.forEach(entity => {

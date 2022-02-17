@@ -1,6 +1,7 @@
+import AudioBoard from "./AudioBoard";
 import BoundingBox from "./BoundingBox";
 import { LayerRenderer } from "./Compositor";
-import Level from "./Level";
+import { GameContext } from "./Level";
 import { Vector } from "./math";
 import { ResolvedTile } from "./TileCollider";
 
@@ -11,6 +12,7 @@ export enum Sides {
 export type Task = () => void;
 
 export class Trait {
+  public sounds: Set<string> = new Set();
   public tasks: Task[] = [];
 
   collides(us: Entity, them: Entity){}
@@ -19,13 +21,20 @@ export class Trait {
     this.tasks.length = 0;
   }
   obstruct(entity: Entity, side: Sides, match?: ResolvedTile){}
+  playSounds(audioBoard: AudioBoard, audioContext: AudioContext){
+    this.sounds.forEach(name => {
+      audioBoard.play(name, audioContext);
+    });
+    this.sounds.clear();
+  }
   queue(task: Task){
     this.tasks.push(task);
   }
-  update(entity: Entity, dt: number, level?: Level){}
+  update(entity: Entity, gameContext?: GameContext){}
 }
 
 export default class Entity {
+  public audioBoard: AudioBoard;
   public pos: Vector = new Vector();
   public size: Vector = new Vector();
   public offset: Vector = new Vector();
@@ -34,7 +43,8 @@ export default class Entity {
   private traits: Map<string, Trait> = new Map();
   public lifetime: number = 0;
 
-  constructor(){
+  constructor(audioBoard?: AudioBoard){
+    this.audioBoard = audioBoard;
     this.bounds = new BoundingBox(this.pos, this.size, this.offset);
   }
 
@@ -65,11 +75,12 @@ export default class Entity {
     });
   }
 
-  update(dt: number, level: Level){
+  update(gameContext: GameContext){
     this.traits.forEach(trait => {
-      trait.update(this, dt, level);
+      trait.update(this, gameContext);
+      trait.playSounds(this.audioBoard, gameContext.audioContext);
     });
-    this.lifetime += dt;
+    this.lifetime += gameContext.dt;
   }
 
   public draw: LayerRenderer = (ctx, camera) => {};

@@ -1,5 +1,5 @@
 import Entity, { Trait } from "../Entity";
-import Level from "../Level";
+import Level, { GameContext } from "../Level";
 
 export default class Killable extends Trait {
   public dead: boolean = false;
@@ -15,7 +15,9 @@ export default class Killable extends Trait {
     this.deadTime = 0;
   }
 
-  update(entity: Entity, dt: number, level: Level): void {
+  update(entity: Entity, gameContext: GameContext): void {
+    const { dt, level } = gameContext;
+
     if(this.dead){
       this.deadTime += dt;
       if(this.deadTime > this.removeAfter){

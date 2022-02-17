@@ -22,7 +22,7 @@ class Behavior extends Trait {
   }
 }
 
-class Goomba extends Entity {
+export default class Goomba extends Entity {
   public physics: Physics;
   public solid: Solid;
   public pendulumMove: PendulumMove;
@@ -41,7 +41,7 @@ class Goomba extends Entity {
 
 export type GoombaFactory = () => Goomba;
 
-export function loadGoomba() : Promise<GoombaFactory> {
+export function loadGoomba(audioContext: AudioContext) : Promise<GoombaFactory> {
   return loadSpriteSheet('goomba')
   .then(createGoombaFactory);
 }

@@ -1,5 +1,7 @@
+import AudioBoard from "../AudioBoard";
 import Entity from "../Entity";
 import { loadSpriteSheet } from "../loaders";
+import { loadAudioBoard } from "../loaders/audio";
 import SpriteSheet from "../SpriteSheet";
 import Go from "../traits/Go";
 import Jump from "../traits/Jump";
@@ -21,8 +23,8 @@ export default class Mario extends Entity {
   public stomper: Stomper;
   public killable: Killable;
 
-  constructor(){
-    super();
+  constructor(audioBoard: AudioBoard){
+    super(audioBoard);
     this.size.set(14, 16);
     this.addTrait('physics', this.physics = new Physics());
     this.addTrait('solid', this.solid = new Solid());
@@ -40,12 +42,17 @@ export default class Mario extends Entity {
 
 export type MarioFactory = () => Mario;
 
-export function loadMario() : Promise<MarioFactory> {
-  return loadSpriteSheet('mario')
-  .then(createMarioFactory);
+export function loadMario(audioContext: AudioContext) : Promise<MarioFactory> {
+  return Promise.all([
+    loadSpriteSheet('mario'),
+    loadAudioBoard('mario', audioContext),
+  ])
+  .then(([sprites, audio]) => {
+    return createMarioFactory(sprites, audio);
+  });
 }
 
-function createMarioFactory(sprites: SpriteSheet) : MarioFactory {
+function createMarioFactory(sprites: SpriteSheet, audioBoard: AudioBoard) : MarioFactory {
   const runAnim = sprites.getAnimation('run');
 
   function routeFrame(mario: Mario){
@@ -66,7 +73,7 @@ function createMarioFactory(sprites: SpriteSheet) : MarioFactory {
   }
   
   return function createMario(){
-    const mario = new Mario();
+    const mario = new Mario(audioBoard);
 
     mario.draw = drawMario;
     mario.killable.removeAfter = 0;
