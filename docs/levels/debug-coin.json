@@ -1,0 +1,38 @@
+{
+  "spriteSheet": "overworld",
+  "musicSheet": "silent",
+  "patterns": {
+  },
+  "layers": [
+    {
+      "tiles": [
+        {
+          "name": "sky",
+          "ranges": [
+            [0, 212, 0, 15]
+          ]
+        },
+        {
+          "name": "ground",
+          "type": "ground",
+          "ranges": [
+            [0, 200, 13, 2]
+          ]
+        }
+      ]
+    },
+    {
+      "tiles": [
+        {
+          "name": "coin",
+          "type": "coin",
+          "ranges": [
+            [7, 100, 8, 5]
+          ]
+        }
+      ]
+    }
+  ],
+  "entities": [
+  ]
+}

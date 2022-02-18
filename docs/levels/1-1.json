@@ -229,6 +229,13 @@
           ]
         },
         {
+          "name": "coin",
+          "type": "coin",
+          "ranges": [
+            [7, 4, 8, 2]
+          ]
+        },
+        {
           "pattern": "pipe-2h",
           "ranges": [
             [28, 11],

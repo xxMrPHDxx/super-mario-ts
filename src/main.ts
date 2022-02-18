@@ -3,7 +3,6 @@ import { setupKeyboard } from './input';
 import Camera from './Camera';
 import { createLevelLoader } from './loaders/level';
 import { loadEntities } from './entities';
-import PlayerController from './traits/PlayerController';
 import { createCollisionLayer } from './layers/collision';
 import { loadFont } from './loaders/font';
 import { createDashboardLayer } from './layers/dashboard';
@@ -20,7 +19,8 @@ async function main(canvas: HTMLCanvasElement){
   ]);
 
   const loadLevel = await createLevelLoader(entityFactory);
-  const level = await loadLevel('1-1');
+  // const level = await loadLevel('1-1');
+  const level = await loadLevel('debug-coin');
   
   const camera = new Camera();
   

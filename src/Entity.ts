@@ -10,7 +10,7 @@ export enum Sides {
   TOP, BOTTOM, LEFT, RIGHT,
 }
 
-export type Task = () => void;
+export type Task = (entity?: Entity) => void;
 export type Listener = {
   name: Symbol,
   callback: Task,
@@ -69,7 +69,7 @@ export default class Entity {
   }
 
   finalize(){
-    this.events.emit(Trait.TASK);
+    this.events.emit(Trait.TASK, this);
 
     this.traits.forEach(trait => {
       trait.finalize(this);

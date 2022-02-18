@@ -20,10 +20,6 @@
       "index": [1, 0]
     },
     {
-      "name": "chance",
-      "index": [7, 2]
-    },
-    {
       "name": "chance-1",
       "index": [7, 2]
     },
@@ -34,6 +30,18 @@
     {
       "name": "chance-3",
       "index": [9, 2]
+    },
+    {
+      "name": "coin-1",
+      "index": [11, 2]
+    },
+    {
+      "name": "coin-2",
+      "index": [12, 2]
+    },
+    {
+      "name": "coin-3",
+      "index": [13, 2]
     },
     {
       "name": "pipe-insert-vert-left",
@@ -93,6 +101,11 @@
       "name": "chance",
       "frameLen": 0.1,
       "frames": ["chance-1","chance-1","chance-2","chance-3","chance-2"]
+    },
+    {
+      "name": "coin",
+      "frameLen": 0.15,
+      "frames": ["coin-1","coin-2","coin-3","coin-2"]
     }
   ]
 }

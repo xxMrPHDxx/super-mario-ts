@@ -4,6 +4,7 @@ import { LevelTileSpec } from "./loaders/level";
 import { Matrix } from "./math";
 import { brick } from "./tiles/brick";
 import { ground } from "./tiles/ground";
+import { coin } from "./tiles/coin";
 
 export interface ResolvedTile {
   tile: LevelTileSpec,
@@ -28,6 +29,7 @@ interface Handlers {
 const handlers: Handlers = {
   brick,
   ground,
+  coin,
 };
 
 export class TileResolver {

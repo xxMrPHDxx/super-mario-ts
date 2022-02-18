@@ -7,6 +7,10 @@
     {
       "name": "stomp",
       "url": "./audio/stomp.ogg"
+    },
+    {
+      "name": "coin",
+      "url": "./audio/coin.ogg"
     }
   ]
 }
