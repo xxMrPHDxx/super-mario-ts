@@ -2,7 +2,7 @@
   "author": "xxMrPHDxx",
   "scripts": {
     "start": "npm-run-all --parallel watch:server watch:build",
-    "watch:server": "serve public/",
+    "watch:server": "serve docs/",
     "watch:build": "npx webpack watch",
     "build": "npx webpack build"
   },
