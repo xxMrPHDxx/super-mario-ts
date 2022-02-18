@@ -2,6 +2,7 @@ import Compositor from "./Compositor";
 import { EntityFactory } from "./entities";
 import Entity from "./Entity";
 import EntityCollider from "./EntityCollider";
+import MusicController from "./MusicController";
 import TileCollider from "./TileCollider";
 
 export interface GameContext {
@@ -12,6 +13,7 @@ export interface GameContext {
 }
 
 export default class Level {
+  public music: MusicController = new MusicController();
   public comp: Compositor = new Compositor();
   public entities: Set<Entity> = new Set();
   public tileCollider: TileCollider = new TileCollider();

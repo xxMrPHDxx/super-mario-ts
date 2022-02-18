@@ -2,9 +2,11 @@ import { EntityFactory } from "../entities";
 import { createBackgroundLayer } from "../layers/background";
 import { createSpriteLayer } from "../layers/sprite";
 import Level from "../Level";
-import { loadJSON, loadSpriteSheet } from "../loaders";
+import { loadJSON } from "../loaders";
 import { Matrix } from "../math";
 import SpriteSheet from "../SpriteSheet";
+import { loadMusicSheet } from "./music";
+import { loadSpriteSheet } from "./sprite";
 
 type Range = [number, number, number?, number?];
 export interface LevelTileSpec {
@@ -28,6 +30,7 @@ interface EntitySpec {
 }
 interface LevelSpec {
   spriteSheet: string,
+  musicSheet: string,
   patterns: PatternsSpec,
   layers: LayerSpec[],
   entities: EntitySpec[],
@@ -66,9 +69,11 @@ export function createLevelLoader(entityFactory: EntityFactory) : LevelLoader {
     .then(levelSpec => Promise.all([
       levelSpec,
       loadSpriteSheet(levelSpec.spriteSheet),
+      loadMusicSheet(levelSpec.musicSheet),
     ]))
-    .then(([levelSpec, sprites]) => {
+    .then(([levelSpec, sprites, musicPlayer]) => {
       const level = new Level();
+      level.music.setPlayer(musicPlayer);
 
       setupBackgrounds(levelSpec, level, sprites);
       setupEntities(levelSpec, level, entityFactory);

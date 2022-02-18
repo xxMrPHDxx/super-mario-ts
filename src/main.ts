@@ -46,6 +46,7 @@ async function main(canvas: HTMLCanvasElement){
   }
 
   timer.start();
+  level.music.play('main');
 }
 
 const canvas: HTMLCanvasElement = document.querySelector('canvas#screen');

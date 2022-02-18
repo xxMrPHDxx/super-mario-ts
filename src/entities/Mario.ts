@@ -1,7 +1,7 @@
 import AudioBoard from "../AudioBoard";
 import Entity from "../Entity";
-import { loadSpriteSheet } from "../loaders";
 import { loadAudioBoard } from "../loaders/audio";
+import { loadSpriteSheet } from "../loaders/sprite";
 import SpriteSheet from "../SpriteSheet";
 import Go from "../traits/Go";
 import Jump from "../traits/Jump";
