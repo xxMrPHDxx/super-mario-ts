@@ -1,6 +1,6 @@
 {
-  "spriteSheet": "overworld",
-  "musicSheet": "silent",
+  "spriteSheet": "underworld",
+  "musicSheet": "underworld",
   "patternSheet": "overworld",
   "layers": [
     {
@@ -8,30 +8,26 @@
         {
           "name": "sky",
           "ranges": [
-            [0, 212, 0, 15]
+            [0, 212, 0, 13]
           ]
         },
         {
           "name": "ground",
           "type": "ground",
           "ranges": [
-            [0, 200, 13, 2]
-          ]
-        }
-      ]
-    },
-    {
-      "tiles": [
-        {
-          "name": "coin",
-          "type": "coin",
-          "ranges": [
-            [7, 100, 8, 5]
+            [0, 212, 13, 2]
           ]
         }
       ]
     }
   ],
   "entities": [
+  ],
+  "triggers": [
+    {
+      "type": "goto",
+      "name": "1-1",
+      "pos": [64, 64]
+    }
   ]
 }

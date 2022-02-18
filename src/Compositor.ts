@@ -10,7 +10,7 @@ export default class Compositor {
   add(layer: LayerRenderer){
     this.layers.push(layer);
   }
-  draw(ctx: CanvasRenderingContext2D, camera: Camera){
+  draw(ctx: CanvasRenderingContext2D, camera?: Camera){
     this.layers.forEach(layer => layer(ctx, camera))
   }
 }

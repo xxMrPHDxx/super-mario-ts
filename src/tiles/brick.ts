@@ -1,7 +1,8 @@
 import { Sides } from "../Entity";
+import Level from "../Level";
 import { TileCollisionContext } from "../TileCollider";
 
-function handleX(tileCollisionContext: TileCollisionContext){
+function handleX(tileCollisionContext: TileCollisionContext, level: Level){
   const { entity, match } = tileCollisionContext;
   if(entity.vel.x > 0){
     if(entity.bounds.right > match.x1){
@@ -14,7 +15,7 @@ function handleX(tileCollisionContext: TileCollisionContext){
   }
 }
 
-function handleY(tileCollisionContext: TileCollisionContext){
+function handleY(tileCollisionContext: TileCollisionContext, level: Level){
   const { entity, match, resolver, gameContext } = tileCollisionContext; 
 
   if(entity.vel.y > 0){
@@ -28,7 +29,7 @@ function handleY(tileCollisionContext: TileCollisionContext){
       const goomba = gameContext.entityFactory.goomba();
       goomba.pos.set(entity.pos.x, match.y1);
       goomba.vel.set(50, -400);
-      gameContext.level.entities.add(goomba);
+      level.entities.add(goomba);
     }
     if(entity.bounds.top < match.y2){
       entity.obstruct(Sides.TOP, match);

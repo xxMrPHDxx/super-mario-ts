@@ -1,7 +1,7 @@
 import AudioBoard from "../AudioBoard";
 import { EntityFactory } from "../entities";
 import Entity from "../Entity";
-import Level from "../Level";
+import Level, { GameContext } from "../Level";
 import { loadAudioBoard } from "../loaders/audio";
 import { findPlayers } from "../player";
 import Emitter from "../traits/Emitter";
@@ -20,16 +20,16 @@ export default class Cannon extends Entity {
 
 export type CannonFactory = () => Cannon;
 
-export function loadCannon(audioContext: AudioContext, entityFactory: EntityFactory) : Promise<CannonFactory> {
+export function loadCannon(audioContext: AudioContext) : Promise<CannonFactory> {
   return loadAudioBoard('cannon', audioContext)
   .then(audio => {
-    return createCannonFactory(audio, entityFactory);
+    return createCannonFactory(audio);
   });
 }
 
 
-function createCannonFactory(audioBoard: AudioBoard, entityFactory: EntityFactory) : CannonFactory {
-  function emitBullet(entity: Entity, level: Level){
+function createCannonFactory(audioBoard: AudioBoard) : CannonFactory {
+  function emitBullet(entity: Entity, gameContext: GameContext, level: Level){
     if(!(entity instanceof Cannon)) return;
 
     let dir;
@@ -40,7 +40,7 @@ function createCannonFactory(audioBoard: AudioBoard, entityFactory: EntityFactor
       }
     }
 
-    const bullet = entityFactory.bullet();
+    const bullet = gameContext.entityFactory.bullet();
     bullet.pos.copy(entity.pos);
     bullet.vel.x = 80 * Math.sign(dir);
 

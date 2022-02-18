@@ -1,5 +1,5 @@
 import Entity, { Trait } from "../Entity";
-import { GameContext } from "../Level";
+import Level, { GameContext } from "../Level";
 
 export default class LevelTimer extends Trait {
   static TIMER_HURRY = Symbol('timer.hurry');
@@ -10,9 +10,8 @@ export default class LevelTimer extends Trait {
   private hurryTime: number = 100;
   private hurryEmitted: boolean = null;
 
-  update(entity: Entity, gameContext: GameContext): void {
-    const { dt, level } = gameContext;
-    this.currentTime -= dt * 2;
+  update(entity: Entity, gameContext: GameContext, level: Level): void {
+    this.currentTime -= gameContext.dt * 2;
     if(this.hurryEmitted !== true && this.currentTime < this.hurryTime){
       level.events.emit(LevelTimer.TIMER_HURRY);
       this.hurryEmitted = true;

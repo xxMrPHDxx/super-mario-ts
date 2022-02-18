@@ -1,28 +1,32 @@
 import Mario from './entities/Mario';
+import InputRouter from './InputRouter';
 import Keyboard from './KeyboardState';
 
-export function setupKeyboard(mario: Mario) : Keyboard {
+export function setupKeyboard(window: Window) : InputRouter {
   const input = new Keyboard();
+  const router = new InputRouter();
+
+  input.listenTo(window);
   
   input.addMapping('KeyP', keyState => {
     if(keyState){
-      mario.jump.start();
+      router.route((entity: Mario) => entity.jump.start());
     }else{
-      mario.jump.cancel();
+      router.route((entity: Mario) => entity.jump.cancel());
     }
   });
   
   input.addMapping('KeyO', keyState => {
-    mario.turbo(keyState === 1);
+    router.route((entity: Mario) => entity.turbo(keyState === 1));
   });
 
   input.addMapping('KeyA', keyState => {
-    mario.go.dir += keyState ? -1 : 1;
+    router.route((entity: Mario) => entity.go.dir += keyState ? -1 : 1);
   });
   
   input.addMapping('KeyD', keyState => {
-    mario.go.dir += keyState ? 1 : -1;
+    router.route((entity: Mario) => entity.go.dir += keyState ? 1 : -1);
   });
   
-  return input;
+  return router;
 }

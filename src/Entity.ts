@@ -2,7 +2,7 @@ import AudioBoard from "./AudioBoard";
 import BoundingBox from "./BoundingBox";
 import { LayerRenderer } from "./Compositor";
 import EventBuffer from "./EventBuffer";
-import { GameContext } from "./Level";
+import Level, { GameContext } from "./Level";
 import { Vector } from "./math";
 import { ResolvedTile } from "./TileCollider";
 
@@ -35,7 +35,7 @@ export class Trait {
   queue(task: Task){
     this.listen(Trait.TASK, task, 1);
   }
-  update(entity: Entity, gameContext?: GameContext){}
+  update(entity: Entity, gameContext?: GameContext, level?: Level){}
 }
 
 export default class Entity {
@@ -96,9 +96,9 @@ export default class Entity {
     this.sounds.clear();
   }
 
-  update(gameContext: GameContext){
+  update(gameContext: GameContext, level?: Level){
     this.traits.forEach(trait => {
-      trait.update(this, gameContext);
+      trait.update(this, gameContext, level);
     });
     this.playSounds(this.audioBoard, gameContext.audioContext);
     this.lifetime += gameContext.dt;
