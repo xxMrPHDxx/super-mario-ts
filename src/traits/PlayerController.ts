@@ -9,12 +9,12 @@ export default class PlayerController extends Trait {
   public time: number = 300;
   public score: number = 0;
 
+  constructor(){
+    super();
+  }
+
   setPlayer(player: Mario){
     this.player = player;
-
-    this.player.stomper.events.listen('stomp', () => {
-      this.score += 100;
-    });
   }
 
   update(entity: Entity, gameContext: GameContext): void {

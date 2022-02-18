@@ -1,5 +1,6 @@
 import { LayerRenderer } from "../Compositor";
 import { FontSheet } from "../loaders/font";
+import Player from "../traits/Player";
 import PlayerController from "../traits/PlayerController";
 
 export function createDashboardLayer(font: FontSheet, playerController: PlayerController) : LayerRenderer {
@@ -10,9 +11,10 @@ export function createDashboardLayer(font: FontSheet, playerController: PlayerCo
 
   return function drawDashboard(ctx: CanvasRenderingContext2D){
     const time = Math.max(0, playerController.time);
+    const player = playerController.player.getTrait('player') as Player;
 
     font.draw('MARIO', ctx, 16, LINE1);
-    font.draw(playerController.score.toString().padStart(6, '0'), ctx, 16, LINE2);
+    font.draw(player.score.toString().padStart(6, '0'), ctx, 16, LINE2);
 
     font.draw(`@x${coins.toString().padStart(2, '0')}`, ctx, 96, LINE2);
 

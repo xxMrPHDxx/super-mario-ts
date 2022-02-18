@@ -62,6 +62,7 @@ class Behavior extends Trait {
     us.pendulumMove.enabled = false;
     if(!this.walkSpeed) this.walkSpeed = us.pendulumMove.speed;
     this.state = KoopaState.HIDING;
+    this.hideTime = 0;
   }
 
   panic(us: Koopa, them: Entity){

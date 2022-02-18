@@ -2,6 +2,7 @@ import Entity, { Trait } from "../Entity";
 import Killable from "./Killable";
 
 export default class Stomper extends Trait {
+  static STOMP = Symbol('stomp');
   private boundSpeed: number = 400;
   
   private bounce(us: Entity, them: Entity){
@@ -16,7 +17,7 @@ export default class Stomper extends Trait {
     if(us.vel.y > them.vel.y){
       this.queue(() => this.bounce(us, them));
       us.sounds.add('stomp');
-      this.events.emit('stomp', us, them);
+      us.events.emit(Stomper.STOMP, us, them);
     }
   }
 }
