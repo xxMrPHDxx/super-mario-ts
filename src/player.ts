@@ -1,4 +1,3 @@
-import { EntityCreator } from "./entities";
 import Mario from "./entities/Mario";
 import Entity from "./Entity";
 import Level from "./Level";

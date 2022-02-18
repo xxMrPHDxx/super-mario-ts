@@ -20,13 +20,12 @@ module.exports = {
   },
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, 'docs'),
   },
   optimization: {
     minimize: true,
     minimizer: [
       new TerserPlugin(),
-      // new WebpackObfuscator ({ rotateStringArray: true }),
     ],
   },
 };

@@ -1,5 +1,5 @@
-import Entity, { Sides } from "../Entity";
-import { ResolvedTile, TileCollisionContext } from "../TileCollider";
+import { Sides } from "../Entity";
+import { TileCollisionContext } from "../TileCollider";
 
 function handleX(tileCollisionContext: TileCollisionContext){
   const { entity, match } = tileCollisionContext;

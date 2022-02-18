@@ -2,7 +2,7 @@ import Camera from "../Camera";
 import { LayerRenderer } from "../Compositor";
 import Entity from "../Entity";
 import Level from "../Level";
-import TileCollider, { TileResolver } from "../TileCollider";
+import { TileResolver } from "../TileCollider";
 
 interface Vec2 { x: number, y: number };
 
@@ -49,7 +49,7 @@ function createTileCandidateLayer(tileResolver: TileResolver){
     resolvedTiles.length = 0;
   };
 }
-
+ 
 export function createCollisionLayer(level: Level) : LayerRenderer {
   const drawTileCandidates = level.tileCollider.resolvers.map(createTileCandidateLayer);
   const drawBoundingBoxes = createEntityLayer(level.entities);

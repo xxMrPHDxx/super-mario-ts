@@ -1,5 +1,5 @@
 import Entity from "./Entity";
-import Level, { GameContext } from "./Level";
+import { GameContext } from "./Level";
 import { LevelTileSpec } from "./loaders/level";
 import { Matrix } from "./math";
 import { brick } from "./tiles/brick";
@@ -19,7 +19,7 @@ export type TileCollisionContext = {
   gameContext: GameContext
 }
 
-type HandlerCallback = (...args: any[]) => void;
+type HandlerCallback = (tileCollisionContext: TileCollisionContext) => void;
 
 interface Handlers {
   [key: string]: HandlerCallback[],

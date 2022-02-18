@@ -3,7 +3,6 @@ import { setupKeyboard } from './input';
 import Camera from './Camera';
 import { createLevelLoader } from './loaders/level';
 import { loadEntities } from './entities';
-import Mario from './entities/Mario';
 import PlayerController from './traits/PlayerController';
 import { createCollisionLayer } from './layers/collision';
 import { loadFont } from './loaders/font';
