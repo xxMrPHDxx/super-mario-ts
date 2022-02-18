@@ -7,8 +7,13 @@ export default class MusicPlayer {
     this.tracks.set(name, audio);
   }
 
-  play(name: string){
+  play(name: string) : HTMLAudioElement {
+    for(const audio of this.tracks.values()){
+      audio.pause();
+    }
+
     const track = this.tracks.get(name);
     if(track) track.play();
+    return track;
   }
 }

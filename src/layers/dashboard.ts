@@ -1,27 +1,40 @@
 import { LayerRenderer } from "../Compositor";
+import Level from "../Level";
 import { FontSheet } from "../loaders/font";
+import { findPlayers } from "../player";
+import LevelTimer from "../traits/LevelTimer";
 import Player from "../traits/Player";
-import PlayerController from "../traits/PlayerController";
 
-export function createDashboardLayer(font: FontSheet, playerController: PlayerController) : LayerRenderer {
+function getPlayerTrait(level: Level) : Player {
+  for(const entity of findPlayers(level)){
+    return entity.getTrait('player') as Player;
+  }
+}
+
+function getTimerTrait(level: Level) : LevelTimer {
+  for(const entity of level.entities){
+    const trait = entity.getTrait('levelTimer');
+    if(trait && trait instanceof LevelTimer) return trait;
+  }
+}
+
+export function createDashboardLayer(font: FontSheet, level: Level) : LayerRenderer {
   const LINE1 = font.size;
   const LINE2 = font.size * 2;
 
-  const coins = 26;
+  const player = getPlayerTrait(level);
+  const timer = getTimerTrait(level);
 
   return function drawDashboard(ctx: CanvasRenderingContext2D){
-    const time = Math.max(0, playerController.time);
-    const player = playerController.player.getTrait('player') as Player;
-
-    font.draw('MARIO', ctx, 16, LINE1);
+    font.draw(player.name, ctx, 16, LINE1);
     font.draw(player.score.toString().padStart(6, '0'), ctx, 16, LINE2);
 
-    font.draw(`@x${coins.toString().padStart(2, '0')}`, ctx, 96, LINE2);
+    font.draw(`@x${player.coins.toString().padStart(2, '0')}`, ctx, 96, LINE2);
 
     font.draw('WORLD', ctx, 152, LINE1);
     font.draw('1-1', ctx, 160, LINE2);
 
     font.draw('TIME', ctx, 208, LINE1);
-    font.draw(time.toFixed(0).padStart(3, '0'), ctx, 216, LINE2);
+    font.draw(Math.max(0, timer.currentTime).toFixed(0).padStart(3, '0'), ctx, 216, LINE2);
   }
 }

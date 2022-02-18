@@ -4,28 +4,20 @@ import { GameContext } from "../Level";
 import { Vector } from "../math";
 
 export default class PlayerController extends Trait {
-  public player: Mario = null;
   public checkpoint: Vector = new Vector();
-  public time: number = 300;
-  public score: number = 0;
-
-  constructor(){
-    super();
-  }
+  public player: Mario = null;
 
   setPlayer(player: Mario){
     this.player = player;
   }
 
   update(entity: Entity, gameContext: GameContext): void {
-    const { dt, level } = gameContext;
+    const { level } = gameContext;
 
     if(this.player && !level.entities.has(this.player)){
       this.player.killable.revive();
       this.player.pos.set(this.checkpoint.x, this.checkpoint.y);
       level.entities.add(this.player);
-    }else{
-      this.time -= dt * 2;
     }
   }
 }

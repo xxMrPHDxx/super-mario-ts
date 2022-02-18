@@ -1,10 +1,12 @@
 import { EntityFactory } from "../entities";
+import Entity from "../Entity";
 import { createBackgroundLayer } from "../layers/background";
 import { createSpriteLayer } from "../layers/sprite";
 import Level from "../Level";
 import { loadJSON } from "../loaders";
 import { Matrix } from "../math";
 import SpriteSheet from "../SpriteSheet";
+import LevelTimer from "../traits/LevelTimer";
 import { loadMusicSheet } from "./music";
 import { loadSpriteSheet } from "./sprite";
 
@@ -39,6 +41,20 @@ interface ExpandedTile {
   tile: LevelTileSpec,
   x: number,
   y: number,
+}
+
+function createTimer() : Entity {
+  const timer = new Entity();
+  timer.addTrait('levelTimer', new LevelTimer());
+  return timer;
+}
+
+function setupBehavior(level: Level){
+  const timer = createTimer();
+  level.entities.add(timer);
+
+  level.events.listen(LevelTimer.TIMER_OKAY, () => level.music.playTheme());
+  level.events.listen(LevelTimer.TIMER_HURRY, () => level.music.playHurryTheme());
 }
 
 function setupBackgrounds(levelSpec: LevelSpec, level: Level, sprites: SpriteSheet){
@@ -77,6 +93,7 @@ export function createLevelLoader(entityFactory: EntityFactory) : LevelLoader {
 
       setupBackgrounds(levelSpec, level, sprites);
       setupEntities(levelSpec, level, entityFactory);
+      setupBehavior(level);
       
       return level;
     });

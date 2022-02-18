@@ -25,12 +25,14 @@ async function main(canvas: HTMLCanvasElement){
   const camera = new Camera();
   
   const mario = entityFactory.mario();
+  mario.player.name = 'MARIO';
+  level.entities.add(mario);
 
   const playerEnv = createPlayerEnv(mario);
   level.entities.add(playerEnv);
 
   level.comp.add(createCollisionLayer(level));
-  level.comp.add(createDashboardLayer(font, playerEnv.getTrait('controller') as PlayerController));
+  level.comp.add(createDashboardLayer(font, level));
 
   const input = setupKeyboard(mario);
   input.listenTo(window);
@@ -46,7 +48,6 @@ async function main(canvas: HTMLCanvasElement){
   }
 
   timer.start();
-  level.music.play('main');
 }
 
 const canvas: HTMLCanvasElement = document.querySelector('canvas#screen');
