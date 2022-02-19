@@ -1,5 +1,6 @@
-import Entity, { Trait } from "../Entity";
+import Entity from "../Entity";
 import Level, { GameContext } from "../Level";
+import Trait from "../Trait";
 
 type Touch = (entity: Entity, touches: Set<Entity>, gameContext: GameContext, level: Level) => void;
 

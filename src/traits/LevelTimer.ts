@@ -1,5 +1,6 @@
-import Entity, { Trait } from "../Entity";
+import Entity from "../Entity";
 import Level, { GameContext } from "../Level";
+import Trait from "../Trait";
 
 export default class LevelTimer extends Trait {
   static TIMER_HURRY = Symbol('timer.hurry');

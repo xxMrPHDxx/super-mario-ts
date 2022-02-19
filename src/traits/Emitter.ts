@@ -1,5 +1,6 @@
-import Entity, { Trait } from "../Entity";
+import Entity from "../Entity";
 import Level, { GameContext } from "../Level";
+import Trait from "../Trait";
 
 type EmitterCallback = (entity: Entity, gameContext: GameContext, level: Level) => void;
 

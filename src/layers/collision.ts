@@ -12,8 +12,8 @@ function createEntityLayer(entities: Set<Entity>){
     entities.forEach(entity => {
       ctx.beginPath();
       ctx.rect(
-        entity.bounds.left - camera.pos.x, 
-        entity.bounds.top - camera.pos.y, 
+        Math.floor(entity.bounds.left - camera.pos.x), 
+        Math.floor(entity.bounds.top - camera.pos.y), 
         entity.size.x, entity.size.y
       );
       ctx.stroke();
@@ -38,8 +38,8 @@ function createTileCandidateLayer(tileResolver: TileResolver){
     resolvedTiles.forEach(({x,y}) => {
       ctx.beginPath();
       ctx.rect(
-        x*tileSize - camera.pos.x, 
-        y*tileSize - camera.pos.y, 
+        Math.floor(x*tileSize - camera.pos.x), 
+        Math.floor(y*tileSize - camera.pos.y), 
         tileSize, tileSize
       );
       ctx.stroke();

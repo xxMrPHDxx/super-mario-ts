@@ -1,5 +1,6 @@
-import Entity, { Trait } from "../Entity";
+import Entity from "../Entity";
 import { GameContext } from "../Level";
+import Trait from "../Trait";
 
 export default class Velocity extends Trait {
   update(entity: Entity, gameContext: GameContext): void {

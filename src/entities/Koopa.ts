@@ -1,7 +1,8 @@
-import Entity, { Trait } from "../Entity";
+import Entity from "../Entity";
 import { GameContext } from "../Level";
 import { loadSpriteSheet } from "../loaders/sprite";
 import SpriteSheet from "../SpriteSheet";
+import Trait from "../Trait";
 import Killable from "../traits/Killable";
 import PendulumMove from "../traits/PendulumMove";
 import Physics from "../traits/Physics";
@@ -21,8 +22,8 @@ class Behavior extends Trait {
   private walkSpeed: number = null;
 
   collides(us: Entity, them: Entity): void {
-    const stomper = them.getTrait('stomper');
-    if(us instanceof Koopa && !us.killable.dead && stomper instanceof Stomper){
+    if(!(us instanceof Koopa && them.hasTrait(Stomper))) return;
+    if(!us.killable.dead){
       if(them.vel.y > us.vel.y){
         this.handleStomp(us, them);
       }else if(them instanceof Mario){
@@ -99,11 +100,11 @@ export default class Koopa extends Entity {
 
   constructor(){
     super();
-    this.addTrait('physics', this.physics = new Physics());
-    this.addTrait('solid', this.solid = new Solid());
-    this.addTrait('pendulumMove', this.pendulumMove = new PendulumMove());
-    this.addTrait('goomba', this.behavior = new Behavior());
-    this.addTrait('killable', this.killable = new Killable());
+    this.addTrait(this.physics = new Physics());
+    this.addTrait(this.solid = new Solid());
+    this.addTrait(this.pendulumMove = new PendulumMove());
+    this.addTrait(this.behavior = new Behavior());
+    this.addTrait(this.killable = new Killable());
   }
 }
 

@@ -1,11 +1,10 @@
-import Entity, { Trait } from "../Entity";
+import Entity from "../Entity";
 import { GameContext } from "../Level";
 import { loadSpriteSheet } from "../loaders/sprite";
 import SpriteSheet from "../SpriteSheet";
+import Trait from "../Trait";
 import Gravity from "../traits/Gravity";
 import Killable from "../traits/Killable";
-import Physics from "../traits/Physics";
-import Solid from "../traits/Solid";
 import Stomper from "../traits/Stomper";
 import Velocity from "../traits/Velocity";
 import Mario from "./Mario";
@@ -14,8 +13,8 @@ class Behavior extends Trait {
   private gravity: Gravity = new Gravity();
 
   collides(us: Entity, them: Entity): void {
-    const stomper = them.getTrait('stomper');
-    if(us instanceof Bullet && !us.killable.dead && stomper instanceof Stomper){
+    if(!(us instanceof Bullet && them.hasTrait(Stomper))) return;
+    if(!us.killable.dead){
       if(them.vel.y > us.vel.y){
         us.killable.kill();
         us.vel.set(100, -200);
@@ -40,9 +39,9 @@ export default class Bullet extends Entity {
 
   constructor(){
     super();
-    this.addTrait('velocity', this.velocity = new Velocity());
-    this.addTrait('bullet', this.behavior = new Behavior());
-    this.addTrait('killable', this.killable = new Killable());
+    this.addTrait(this.velocity = new Velocity());
+    this.addTrait(this.behavior = new Behavior());
+    this.addTrait(this.killable = new Killable());
   }
 }
 

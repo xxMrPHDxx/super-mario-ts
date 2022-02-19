@@ -50,24 +50,13 @@ type ExpandedTile = {
   y: number,
 }
 
-function createTimer() : Entity {
-  const timer = new Entity();
-  timer.addTrait('levelTimer', new LevelTimer());
-  return timer;
-}
-
-function createTrigger() : Entity {
-  const entity = new Entity();
-  entity.addTrait('trigger', new Trigger());
-  return entity;
-}
-
 async function loadPattern(name: string) : Promise<PatternsSpec> {
   return await loadJSON(`./sprites/patterns/${name}.json`) as PatternsSpec;
 }
 
 function setupBehavior(level: Level){
-  const timer = createTimer();
+  const timer = new Entity();
+  timer.addTrait(new LevelTimer());
   level.entities.add(timer);
 
   level.events.listen(LevelTimer.TIMER_OKAY, () => level.music.playTheme());
@@ -98,14 +87,17 @@ function setupEntities(levelSpec: LevelSpec, level: Level, entityFactory: Entity
 function setupTriggers(levelSpec: LevelSpec, level: Level){
   if(!levelSpec.triggers) return;
   for(const triggerSpec of levelSpec.triggers){
-    const entity = createTrigger();
-    const trigger = entity.getTrait('trigger') as Trigger;
+    const trigger = new Trigger();
+
     if(!trigger) continue;
     trigger.conditions.push((entity, touches, gc, level) => {
       level.events.emit(Level.TRIGGER, triggerSpec, entity, touches);
     });
+
+    const entity = new Entity();
+    entity.addTrait(trigger);
     entity.pos.set(...triggerSpec.pos);
-    entity.size.set(64, 64);
+    entity.size.set(16, 16);
     level.entities.add(entity);
   }
 }

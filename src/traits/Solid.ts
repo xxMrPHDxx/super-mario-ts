@@ -1,5 +1,6 @@
-import Entity, { Sides, Trait } from "../Entity";
+import Entity, { Sides } from "../Entity";
 import { ResolvedTile } from "../TileCollider";
+import Trait from "../Trait";
 
 export default class Solid extends Trait {
   public obstructs: boolean = true;

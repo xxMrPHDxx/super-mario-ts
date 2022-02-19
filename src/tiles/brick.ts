@@ -1,6 +1,7 @@
 import { Sides } from "../Entity";
 import Level from "../Level";
 import { TileCollisionContext } from "../TileCollider";
+import Player from "../traits/Player";
 
 function handleX(tileCollisionContext: TileCollisionContext, level: Level){
   const { entity, match } = tileCollisionContext;
@@ -23,7 +24,7 @@ function handleY(tileCollisionContext: TileCollisionContext, level: Level){
       entity.obstruct(Sides.BOTTOM, match);
     }
   }else if(entity.vel.y < 0){
-    if(entity.getTrait('player')){
+    if(entity.getTrait(Player)){
       const grid = resolver.matrix;
       grid.delete(match.indexX, match.indexY);
       const goomba = gameContext.entityFactory.goomba();

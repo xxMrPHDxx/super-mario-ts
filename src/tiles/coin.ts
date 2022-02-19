@@ -3,7 +3,7 @@ import Player from "../traits/Player";
 
 function handle(tileCollisionContext: TileCollisionContext){
   const { entity, resolver, match } = tileCollisionContext;
-  const player = entity.getTrait('player');
+  const player = entity.getTrait(Player);
   if(player instanceof Player){
     player.addCoins(1);
     const grid = resolver.matrix;

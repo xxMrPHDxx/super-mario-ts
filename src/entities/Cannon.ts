@@ -12,7 +12,7 @@ export default class Cannon extends Entity {
 
   constructor(audioBoard: AudioBoard){
     super(audioBoard);
-    this.addTrait('emitter', this.emitter = new Emitter());
+    this.addTrait(this.emitter = new Emitter());
     this.size.set(16, 14);
   }
 }

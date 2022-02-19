@@ -7,14 +7,15 @@ import Player from "../traits/Player";
 
 function getPlayerTrait(level: Level) : Player {
   for(const entity of findPlayers(level)){
-    return entity.getTrait('player') as Player;
+    return entity.getTrait(Player) as Player;
   }
 }
 
 function getTimerTrait(level: Level) : LevelTimer {
   for(const entity of level.entities){
-    const trait = entity.getTrait('levelTimer');
-    if(trait && trait instanceof LevelTimer) return trait;
+    if(entity.hasTrait(LevelTimer)){
+      return entity.getTrait(LevelTimer) as LevelTimer;
+    }
   }
 }
 

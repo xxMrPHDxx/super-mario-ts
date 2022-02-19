@@ -1,5 +1,6 @@
-import Entity, { Trait } from "../Entity";
+import Entity from "../Entity";
 import Level, { GameContext } from "../Level";
+import Trait from "../Trait";
 
 export default class Physics extends Trait {
   private gravity: number = 1500;

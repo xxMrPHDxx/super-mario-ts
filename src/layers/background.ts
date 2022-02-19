@@ -32,8 +32,8 @@ export function createBackgroundLayer(level: Level, tiles: Matrix<LevelTileSpec>
     redraw(drawFrom, drawTo);
     screen.drawImage(
       ctx.canvas, 
-      -camera.pos.x % 16, 
-      -camera.pos.y
+      Math.floor(-camera.pos.x % 16), 
+      Math.floor(-camera.pos.y)
     );
   }
 }

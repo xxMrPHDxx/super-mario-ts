@@ -8,11 +8,13 @@ import { createDashboardLayer } from './layers/dashboard';
 import { createPlayerEnv } from './player';
 import SceneRunner from './SceneRunner';
 import { createPlayerProgressLayer } from './layers/player-progress';
-import CompositionScene from './CompositionScene';
+import TimedScene from './TimedScene';
 import { createColorLayer } from './layers/color';
 import Level from './Level';
 import Entity from './Entity';
 import Player from './traits/Player';
+import Scene from './Scene';
+import { createTextLayer } from './layers/text';
 
 async function main(canvas: HTMLCanvasElement){
   const videoContext: CanvasRenderingContext2D = canvas.getContext('2d');
@@ -30,22 +32,30 @@ async function main(canvas: HTMLCanvasElement){
   
   const mario = entityFactory.mario();
   mario.player.name = 'MARIO';
+
   const inputRouter = setupKeyboard(window);
   inputRouter.addReceiver(mario);
 
   async function runLevel(name: string){
+    const loadScreen = new Scene();
+    loadScreen.comp.add(createColorLayer('#000'));
+    loadScreen.comp.add(createTextLayer(font, `Loading ${name}`));
+    sceneRunner.addScene(loadScreen);
+    sceneRunner.runNext();
+
     const level = await loadLevel(name);
 
-    let triggered = false;
     level.events.listen(Level.TRIGGER, (spec: TriggerSpec, trigger: Entity, touches: Set<Entity>) => {
-      if(triggered || spec.type !== 'goto') return;
-      for(const entity of touches){
-        const player = entity.getTrait('player') as Player;
-        if(!player) continue;
-        triggered = true;
-        return runLevel(spec.name);
+      if(spec.type === 'goto'){
+        for(const entity of touches){
+          if(entity.hasTrait(Player)){
+            return runLevel(spec.name);
+          }
+        }
       }
     });
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
   
     const dashboardLayer = createDashboardLayer(font, level);
     const playerProgressLayer = createPlayerProgressLayer(font, level);
@@ -56,7 +66,7 @@ async function main(canvas: HTMLCanvasElement){
     const playerEnv = createPlayerEnv(mario);
     level.entities.add(playerEnv);
   
-    const waitScreen = new CompositionScene();
+    const waitScreen = new TimedScene();
     waitScreen.comp.add(createColorLayer('#000'));
     waitScreen.comp.add(dashboardLayer);
     waitScreen.comp.add(playerProgressLayer);
@@ -68,8 +78,6 @@ async function main(canvas: HTMLCanvasElement){
 
     sceneRunner.runNext();
   }
-
-  (window as any).runLevel = runLevel;
 
   const timer = new Timer();
 

@@ -14,8 +14,8 @@ export function createSpriteLayer(entities: Set<Entity>, width: number = 64, hei
 
       ctx.drawImage(
         spriteCtx.canvas, 
-        entity.pos.x - camera.pos.x,
-        entity.pos.y - camera.pos.y
+        Math.floor(entity.pos.x - camera.pos.x),
+        Math.floor(entity.pos.y - camera.pos.y)
       );
     })
   }

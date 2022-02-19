@@ -28,13 +28,13 @@ export default class Mario extends Entity {
   constructor(audioBoard: AudioBoard){
     super(audioBoard);
     this.size.set(14, 16);
-    this.addTrait('player', this.player = new Player());
-    this.addTrait('physics', this.physics = new Physics());
-    this.addTrait('solid', this.solid = new Solid());
-    this.addTrait('go', this.go = new Go());
-    this.addTrait('jump', this.jump = new Jump());
-    this.addTrait('stomper', this.stomper = new Stomper());
-    this.addTrait('killable', this.killable = new Killable());
+    this.addTrait(this.player = new Player());
+    this.addTrait(this.physics = new Physics());
+    this.addTrait(this.solid = new Solid());
+    this.addTrait(this.go = new Go());
+    this.addTrait(this.jump = new Jump());
+    this.addTrait(this.stomper = new Stomper());
+    this.addTrait(this.killable = new Killable());
     this.go.drag = Drag.SLOW;
   }
 
@@ -72,7 +72,7 @@ function createMarioFactory(sprites: SpriteSheet, audioBoard: AudioBoard) : Mari
   }
 
   function drawMario(ctx: CanvasRenderingContext2D){
-    sprites.draw(routeFrame(this), ctx, 0, 0, this.go.heading < 0);
+    sprites.draw(routeFrame(this), ctx, 0, 0, this.go.dir < 0);
   }
   
   return function createMario(){

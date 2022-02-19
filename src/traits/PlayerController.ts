@@ -1,7 +1,8 @@
 import Mario from "../entities/Mario";
-import Entity, { Trait } from "../Entity";
+import Entity from "../Entity";
 import Level, { GameContext } from "../Level";
 import { Vector } from "../math";
+import Trait from "../Trait";
 
 export default class PlayerController extends Trait {
   public checkpoint: Vector = new Vector();

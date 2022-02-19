@@ -5,6 +5,7 @@ import EventBuffer from "./EventBuffer";
 import Level, { GameContext } from "./Level";
 import { Vector } from "./math";
 import { ResolvedTile } from "./TileCollider";
+import Trait from "./Trait";
 
 export enum Sides {
   TOP, BOTTOM, LEFT, RIGHT,
@@ -16,27 +17,6 @@ export type Listener = {
   callback: Task,
   count: number,
 };
-
-export class Trait {
-  static TASK = Symbol('task');
-  public listeners: Listener[] = [];
-
-  collides(us: Entity, them: Entity){}
-  finalize(entity: Entity){
-    this.listeners = this.listeners.filter(listener => {
-      entity.events.process(listener.name, listener.callback);
-      return --listener.count;
-    });
-  }
-  listen(name: Symbol, callback: Task, count: number = Infinity){
-    this.listeners.push({ name, callback, count });
-  }
-  obstruct(entity: Entity, side: Sides, match?: ResolvedTile){}
-  queue(task: Task){
-    this.listen(Trait.TASK, task, 1);
-  }
-  update(entity: Entity, gameContext?: GameContext, level?: Level){}
-}
 
 export default class Entity {
   public audioBoard: AudioBoard;
@@ -51,15 +31,15 @@ export default class Entity {
   public vel: Vector = new Vector();
   public lifetime: number = 0;
 
-  private traits: Map<string, Trait> = new Map();
+  private traits: Map<Function, Trait> = new Map();
 
   constructor(audioBoard?: AudioBoard){
     this.audioBoard = audioBoard;
     this.bounds = new BoundingBox(this.pos, this.size, this.offset);
   }
 
-  addTrait(name: string, trait: Trait){
-    this.traits.set(name, trait);
+  addTrait(trait: Trait){
+    this.traits.set(trait.constructor, trait);
   }
 
   collides(candidate: Entity){
@@ -78,9 +58,12 @@ export default class Entity {
     this.events.clear();
   }
 
-  getTrait(name: string) : Trait {
-    const trait = this.traits.get(name);
-    return trait;
+  getTrait<T extends Trait>(cls: Function) : T {
+    return this.traits.get(cls) as T;
+  }
+
+  hasTrait(cls: Function) : boolean {
+    return this.traits.has(cls);
   }
 
   obstruct(side: Sides, match?: ResolvedTile){

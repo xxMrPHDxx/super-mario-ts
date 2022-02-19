@@ -1,4 +1,5 @@
-import Entity, { Trait } from "../Entity";
+import Entity from "../Entity";
+import Trait from "../Trait";
 import { GameContext } from "../Level";
 import Jump from "./Jump";
 
@@ -28,9 +29,8 @@ export default class Go extends Trait {
     if(this.dir !== 0){
       entity.vel.x += this.acceleration * dt * this.dir;
 
-      const jump = entity.getTrait('jump');
-      if(jump){
-        if(jump instanceof Jump && !jump.falling){
+      if(entity.hasTrait(Jump)){
+        if(!entity.getTrait<Jump>(Jump).falling){
           this.heading = this.dir;
         }
       }else{

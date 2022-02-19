@@ -1,5 +1,6 @@
-import Entity, { Sides, Trait } from "../Entity";
+import Entity, { Sides } from "../Entity";
 import { GameContext } from "../Level";
+import Trait from "../Trait";
 
 const SPEED_BOOST = 0.3;
 

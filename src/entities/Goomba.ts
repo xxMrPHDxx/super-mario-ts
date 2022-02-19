@@ -1,6 +1,7 @@
-import Entity, { Trait } from "../Entity";
+import Entity from "../Entity";
 import { loadSpriteSheet } from "../loaders/sprite";
 import SpriteSheet from "../SpriteSheet";
+import Trait from "../Trait";
 import Killable from "../traits/Killable";
 import PendulumMove from "../traits/PendulumMove";
 import Physics from "../traits/Physics";
@@ -10,8 +11,8 @@ import Mario from "./Mario";
 
 class Behavior extends Trait {
   collides(us: Entity, them: Entity): void {
-    const stomper = them.getTrait('stomper');
-    if(us instanceof Goomba && !us.killable.dead && stomper instanceof Stomper){
+    if(!(us instanceof Goomba && them.hasTrait(Stomper))) return;
+    if(!us.killable.dead){
       if(them.vel.y > us.vel.y){
         us.killable.kill();
         us.pendulumMove.speed = 0;
@@ -31,11 +32,11 @@ export default class Goomba extends Entity {
 
   constructor(){
     super();
-    this.addTrait('physics', this.physics = new Physics());
-    this.addTrait('solid', this.solid = new Solid());
-    this.addTrait('pendulumMove', this.pendulumMove = new PendulumMove());
-    this.addTrait('goomba', this.behavior = new Behavior());
-    this.addTrait('killable', this.killable = new Killable());
+    this.addTrait(this.physics = new Physics());
+    this.addTrait(this.solid = new Solid());
+    this.addTrait(this.pendulumMove = new PendulumMove());
+    this.addTrait(this.behavior = new Behavior());
+    this.addTrait(this.killable = new Killable());
   }
 }
 

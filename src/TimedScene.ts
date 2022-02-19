@@ -1,7 +1,7 @@
 import { GameContext } from "./Level";
 import Scene from "./Scene";
 
-export default class CompositionScene extends Scene {
+export default class TimedScene extends Scene {
   public countdown: number = 2;
 
   draw(ctx: CanvasRenderingContext2D){
