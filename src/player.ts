@@ -14,6 +14,7 @@ export function createPlayerEnv(player: Mario) : Entity {
 }
 
 export function* findPlayers(level: Level) : Generator<Entity> {
+  if(!level) return;
   for(const entity of level.entities){
     if(entity.getTrait('player') instanceof Player) yield entity;
   }

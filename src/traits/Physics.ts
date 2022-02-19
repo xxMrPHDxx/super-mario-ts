@@ -7,10 +7,10 @@ export default class Physics extends Trait {
     const { dt } = gameContext;
 
     entity.pos.x += entity.vel.x * dt;
-    level.tileCollider.checkX(entity, gameContext);
+    level.tileCollider.checkX(entity, gameContext, level);
 
     entity.pos.y += entity.vel.y * dt;
-    level.tileCollider.checkY(entity, gameContext);
+    level.tileCollider.checkY(entity, gameContext, level);
 
     entity.vel.y += this.gravity * dt;
   }

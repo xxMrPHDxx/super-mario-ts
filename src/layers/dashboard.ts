@@ -26,6 +26,7 @@ export function createDashboardLayer(font: FontSheet, level: Level) : LayerRende
 
   return function drawDashboard(ctx: CanvasRenderingContext2D){
     const player = getPlayerTrait(level);
+    if(!player) return;
     
     font.draw(player.name, ctx, 16, LINE1);
     font.draw(player.score.toString().padStart(6, '0'), ctx, 16, LINE2);

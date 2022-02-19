@@ -6,7 +6,7 @@ import { brick } from "./tiles/brick";
 import { ground } from "./tiles/ground";
 import { coin } from "./tiles/coin";
 
-export interface ResolvedTile {
+export type ResolvedTile = {
   tile: LevelTileSpec,
   x1: number, x2: number,
   y1: number, y2: number,
@@ -20,9 +20,9 @@ export type TileCollisionContext = {
   gameContext: GameContext
 }
 
-type HandlerCallback = (tileCollisionContext: TileCollisionContext, level?: Level) => void;
+export type HandlerCallback = (tileCollisionContext: TileCollisionContext, level: Level) => void;
 
-interface Handlers {
+type Handlers = {
   [key: string]: HandlerCallback[],
 }
 
@@ -87,7 +87,7 @@ export default class TileCollider {
     this.resolvers.push(new TileResolver(tileMatrix));
   }
 
-  checkX(entity: Entity, gameContext: GameContext){
+  checkX(entity: Entity, gameContext: GameContext, level: Level){
     if(entity.vel.x === 0) return;
     let x = entity.bounds.left + (entity.vel.x > 0 ? entity.size.x : 0);
 
@@ -98,12 +98,12 @@ export default class TileCollider {
       );
 
       matches.forEach(match =>{
-        this.handle(0, { entity, match, resolver, gameContext });
+        this.handle(0, { entity, match, resolver, gameContext }, level);
       });
     }
   }
 
-  checkY(entity: Entity, gameContext: GameContext){
+  checkY(entity: Entity, gameContext: GameContext, level: Level){
     if(entity.vel.y === 0) return;
     let y = entity.bounds.top + (entity.vel.y > 0 ? entity.size.y : 0);
   
@@ -114,14 +114,14 @@ export default class TileCollider {
       );
 
       matches.forEach(match =>{
-        this.handle(1, { entity, match, resolver, gameContext });
+        this.handle(1, { entity, match, resolver, gameContext }, level);
       });
     }
   }
 
-  private handle(index: number, tileCollisionContext: TileCollisionContext){
+  private handle(index: number, tileCollisionContext: TileCollisionContext, level: Level){
     const handler = handlers[tileCollisionContext.match.tile.type];
     if(!handler || !handler[index]) return;
-    handler[index](tileCollisionContext);
+    handler[index](tileCollisionContext, level);
   }
 }

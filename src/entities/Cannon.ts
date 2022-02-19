@@ -1,5 +1,4 @@
 import AudioBoard from "../AudioBoard";
-import { EntityFactory } from "../entities";
 import Entity from "../Entity";
 import Level, { GameContext } from "../Level";
 import { loadAudioBoard } from "../loaders/audio";

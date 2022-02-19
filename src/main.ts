@@ -36,12 +36,13 @@ async function main(canvas: HTMLCanvasElement){
   async function runLevel(name: string){
     const level = await loadLevel(name);
 
+    let triggered = false;
     level.events.listen(Level.TRIGGER, (spec: TriggerSpec, trigger: Entity, touches: Set<Entity>) => {
-      if(spec.type !== 'goto') return;
-      console.log('Emitting level trigger event', spec);
+      if(triggered || spec.type !== 'goto') return;
       for(const entity of touches){
         const player = entity.getTrait('player') as Player;
         if(!player) continue;
+        triggered = true;
         return runLevel(spec.name);
       }
     });
@@ -65,20 +66,14 @@ async function main(canvas: HTMLCanvasElement){
     level.comp.add(dashboardLayer);
     sceneRunner.addScene(level);
 
-    console.log('Running next scene', sceneRunner.sceneIndex);
     sceneRunner.runNext();
-    console.log('Running next scene', sceneRunner.sceneIndex);
-    sceneRunner.runNext();
-    console.log('Running next scene', sceneRunner.sceneIndex);
   }
 
   (window as any).runLevel = runLevel;
 
   const timer = new Timer();
 
-  console.log(sceneRunner);
   timer.update = (dt) => {
-    console.log('Updating...');
     sceneRunner.update({ dt, audioContext, entityFactory, videoContext });
   }
 
